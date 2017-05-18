@@ -15,9 +15,9 @@ the first place.
 
 For example, OMA and IPSO smart objects use the LWM2M object model,
 which defines a set of pre-structured URI templates and registry of
-object identifiers with semantics attached. This provides 
-machine-readable representations of the semantics, but self description is
-not being used much.
+object identifiers with semantics attached. This provides
+machine-readable representations of the semantics, but self
+description is not being used much.
 
 OCF has a hypermedia approach with discovery using /oic/res etc.,
 which relies on self-description via pointing to predefined resource
@@ -54,12 +54,14 @@ interoperability in the organization and what are the next steps.
 
 ## Research contributions, prototypes
 
-We will issue a call for contributions, with a goal of getting new
-views and new voices into the mix.  This will be research on the
+We issued a [call for contributions][cfc], with a goal of getting new
+views and new voices into the mix.  This solicits research on the
 approaches available for building hybrid, overarching systems, as well
 as some practical systems that are already demonstrating how this
 could be made to work in practice, such as systems for converting some
 of the formal notations and/or self descriptions into each other.
+
+[cfc]: https://github.com/t2trg/2017-07-wishi/CALL-FOR-CONTRIBUTIONS.md
 
 ## Specific topics
 
@@ -74,7 +76,7 @@ waist in the system, and we can look into creating a narrow waist also
 around semantic interoperability and hypermedia design patterns.
 Ultimately, it should not matter which device ecosystem(s) you use for
 your application.  The device ecosystems can maintain their focus on
-intra-op and certification while  an over arching web-like layer of
+intra-op and certification while an over arching web-like layer of
 interoperability can add more value to all of them.
 
 Now is a good time to start to organize cross-ecosystem interops,
