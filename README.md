@@ -61,7 +61,7 @@ as some practical systems that are already demonstrating how this
 could be made to work in practice, such as systems for converting some
 of the formal notations and/or self descriptions into each other.
 
-[cfc]: https://github.com/t2trg/2017-07-wishi/CALL-FOR-CONTRIBUTIONS.md
+[cfc]: https://github.com/t2trg/2017-07-wishi/blob/master/CALL-FOR-CONTRIBUTIONS.md
 
 ## Specific topics
 
