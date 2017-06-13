@@ -6,6 +6,8 @@ Where: Hilton Prague (IETF meeting hotel). Pobřežní 1, Prague, Czech Republic
 
 Registration: https://goo.gl/forms/yUTebqK9C84Ef01i2
 
+Please register by **June 23rd**. Registration and meeting is free of cost but we need to know number of participants for meeting logistics.
+
 # Workshop plan
 
 One of the interesting questions in the IoT space is the role of
