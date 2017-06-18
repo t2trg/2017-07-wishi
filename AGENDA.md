@@ -25,7 +25,7 @@ Draft 0.1 of the Agenda:
 | 9:00  | Chairs               | Welcome & Introduction. T2TRG/IETF work.
 | 9:30  | Padmakumar Subramani | OMA DM (LwM2M)
 | 9:55  | Jaime Jimenez        | IPSO Smart Objects
-| 10:20 | Milan Milenkovic     | IPSO generation 2
+| 10:20 | Milan Milenkovic     | IPSO Semantic Working Group
 | 10:45 |                      | break
 | 11:00 | Michael Koster       | iot.schema.org
 | 11:25 | Matthias Kovatsch    | W3C Web of Things
