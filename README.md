@@ -2,7 +2,7 @@
 
 When: July 15/16, 2017 (weekend before IETF99)
 
-Where: Hilton Prague (IETF meeting hotel). Pobřežní 1, Prague, Czech Republic. 
+Where: Hilton Prague (IETF meeting hotel), room Berlin/Brussels. Pobřežní 1, Prague, Czech Republic
 
 Registration: https://goo.gl/forms/yUTebqK9C84Ef01i2
 
