@@ -1,0 +1,729 @@
+Workshop on IoT Semantic/Hypermedia Interoperability              Position Paper
+July 15/16, 2017, Prague                                            Klaus Hartke
+
+
+
+
+               Hypermedia for Long-Term Semantic Interoperability
+
+
+
+1. Introduction
+
+    One of the great challenges of the Internet of Things (IoT) is semantic
+    interoperability between products from different vendors and standards
+    organizations as the first generation of the IoT is being rolled out [1].
+    But there is already an even greater interoperability challenge on the
+    horizon.
+
+    Today, most Information and Communication Technology (ICT) equipment is
+    obsolete after about 5 years or less. However, the lifetime of IoT devices
+    can be expected to be often much longer [2]. For example, an entrance door
+    connected to the Internet may be used for twenty or thirty years after it
+    has been installed [2]. The technology it uses and communication services it
+    is connected to will most likely undergo numerous generational changes in
+    that time span. This means that deployed IoT devices must be repeatedly
+    integrated into new generations of the IoT to stay relevant and functional.
+
+    A fundamental prerequisite to enable this is evolvability: the degree to
+    which parts of the system can be changed without negatively impacting other
+    parts. Without evolvability, the IoT can only evolve by replacing the
+    current technology generation with an entirely new one. Changes to the data
+    model and interaction model become very costly, which leads to multi-year
+    development cycles and lengthy standardization processes.
+
+    And, of course, it's not actually feasible to just replace the whole IoT.
+    Most likely, older devices will simply be left behind. This means there is a
+    risk that the IoT effectively not only segments into silos of contemporary
+    ecosystems but also into isolated silos of ecosystem generations over time:
+
+                              |    +----+    +----+
+                ecosystem A   |    |silo|    |silo|
+                              |    +----+    +----+
+                              |
+                              |    +----+    +----+
+                ecosystem B   |    |silo|    |silo|
+                              |    +----+    +----+
+                              +------------------------> time
+                                   gener-    gener-
+                                   ation 1   ation 2
+
+    In this position paper, we explore ways to enable a higher evolvability of
+    the IoT application layer and make additions and changes less costly: If
+    ecosystems can evolve in small, incremental steps rather than big jumps,
+    maintaining semantic interoperability with other ecosystems over an extended
+    period of time should become much more cost-efficient.
+
+    Specifically, we a look at the Representational State Transfer (REST)
+    architectural style [3] and machine-understandable hypermedia as strategies
+    for fine-grained, long-term evolution and interoperability. We then briefly
+    present the Constrained RESTful Application Language (CoRAL), a hypermedia
+    data format that enables the hypermedia interaction model even in resource-
+    constrained environments.
+
+
+2. REST and Knowledge                                   _______________________
+
+    In RESTful communication, a client needs to         REST in a nutshell
+    have knowledge of a couple of things for
+    successful interaction with a server. This          REST is the fundamental
+    includes what resources are available, what         architectural style of
+    representations of resource states are              the Web. In REST, items
+    available, what each representation describes,      of interest are modeled
+    how to retrieve a representation, what state        as _resources_ that are
+    changing operations on a resource are               located at _servers_.
+    possible, how to perform these operations, and      Resources are stateful
+    so on.                                              entities; _clients_ can
+                                                        inspect the state of a
+    Some part of this knowledge, such as how to         resource by requesting
+    retrieve the representation of a resource           the server to transfer
+    state, is typically hard-coded in the client        a (textual or binary)
+    software. For example, a Web browser that does      _representation_ of the
+    not implement HTTP cannot communicate with any      state. Resource state
+    HTTP Web server. Software updates [4] can help      can change over time in
+    to keep this knowledge up to date (e.g.,            reaction to external
+    updating a Web browser to HTTP/2).                  events or when a client
+                                                        transfers the represen-
+    For other parts, a choice can often be made         tation of a desired new
+    between hard-coding the knowledge or acquiring      state. Several archi-
+    it on-demand. For example, it would be              tectural constraints in
+    infeasible to preload a Web browser with a          REST induce system
+    list of all existing resources in the Web and       properties such as
+    keep this list updated, even with software          efficiency, scalability
+    updates. Instead, users discover resources on       and evolvability.
+    the fly using search engines and by following       _______________________
+    hyperlinks.
+
+    One of the core principles of REST is that the use of all knowledge must be
+    driven by in-band information [5], regardless of whether it is hard-coded or
+    acquired on-demand. A client must not, for example, make any assumptions
+    about what resources are available at a server or what a string of octets
+    might represent, as that would create a strong coupling between the client
+    and server implementation and inhibit evolvability.
+
+    A key idea of REST is to assign identifiers to groups of knowledge required
+    for interoperability. The server communicates these identifiers as part of
+    the transferred resource state representations (hence "in-band") rather than
+    over some other channel. This enables the client to verify that is has all
+    required knowledge, to acquire missing knowledge on-demand, and to choose
+    from alternative groups of knowledge, all of which promotes evolvability: A
+    RESTful application can be evolved simply by introducing new identifiers for
+    new functionality and phasing out old identifiers.
+
+    There is a continuum ranging from a small number of identifiers for large
+    groups of knowledge to a large number of identifiers for small groups of
+    knowledge. We show a few options commonly used in practice in the following
+    section, one of which is hypermedia.
+
+
+3. Evolution Through In-Band Information
+
+    The interface between RESTful clients and servers is often called a REST API
+    (Application Programming Interface). In contrast to the User Interface (UI)
+    offered by Web pages, REST APIs enable software programs to access
+    information and services. In most cases, evolving a REST-based application
+    means evolving its REST API.
+
+    Some common strategies for API evolution using in-band information include:
+
+      * Code-on-Demand
+
+        In the "Code-on-Demand" strategy, there is only one huge piece of
+        knowledge that is hard-coded in the client implementation. All clients
+        must update to the latest software release before they are allowed to
+        participate. A single identifier is defined and transferred in-band to
+        confirm that each client is indeed running the latest release and thus
+        has all the required knowledge for interoperation.
+
+        Examples for this strategy can be found in online games (such as MMOs)
+        that require all players to run the same software. Another example are
+        Single-Page Applications (SPAs), such as many Web-based e-mail clients:
+        These download the latest client software (in the form of HTML, CSS, and
+        JavaScript) every time the user starts the application by visiting the
+        Web page.
+
+        This strategy works well if it is feasible to always acquire the latest
+        software release on-demand or deny clients access until they have
+        applied the latest software update. Despite the client and server being
+        tightly coupled, the ability to change both implementations effortlessly
+        at the same time makes changing things very inexpensive. However, more
+        often than not, it is infeasible to keep all clients and servers on the
+        same page due to costs of updates and downtimes.
+
+      * Versioning
+
+        In the "Versioning" strategy, a service offers multiple versions of a
+        REST API, so that newer implementations can take advantage of newer
+        features and older implementations continue to work (until the older API
+        is eventually shut down). The service advertises one or more versions it
+        supports; clients check if they support one of the advertised versions.
+        In other words, they use the server-provided version identifier to
+        determine if they have the necessary knowledge for interoperation.
+
+        This strategy works well when it's less feasible to frequently update
+        all client and server implementations to the latest version or suspend
+        the operation of clients and servers that have not applied the latest
+        software update yet. This is the case for the majority of REST and
+        HTTP-based APIs. Examples include most of the available APIs today, such
+        as the Twitter API, Google Cloud API, Facebook API, Amazon S3 API,
+        GitHub API, YouTube API, Dropbox API, Instagram API, Azure API, ...
+
+        The strategy is well supported by tooling: Specification languages such
+        as the OpenAPI Specification (formerly known as Swagger) [6], RAML [7],
+        and others make it easy to specify the knowledge that is required from a
+        client implementation. This includes available resources and their URIs,
+        possible operations on these resources, the structure of data, required
+        and optional parameters, error codes, etc. Stub generators can generate
+        code from API specifications; other generators can often generate human-
+        readable documentation.
+
+        Versioned APIs can be evolved by releasing new versions. Since it's
+        usually not feasible to make implementers update their client libraries
+        all the time, this usually happens in coarse steps, when the benefit of
+        releasing a new version outweighs the cost of updating existing client
+        libraries or developing new ones.
+
+        Client development is often very easy, in particular if services come
+        with official client libraries. However, there are some problems, for
+        example, related to the mandated structure of URIs [8]. As a result, in
+        the majority of cases, API implementations can only be used with one
+        particular service. For example, the Twitter API can only used with with
+        Twitter, not with any other social media platform.
+
+      * Specialization
+
+        While versioning provides a strategy to evolve a single API over time,
+        the "Specialization" strategy allows for multiple specialized APIs at
+        the same time. For example, in a smart home setting, a washing machine
+        might offer a washing machine API, while a garage door might offer a
+        garage door API. These APIs can share many elements (e.g., the use of
+        JSON as the data format) but also specify different sets of available
+        resources and possible operations on these. (A washing machine can do
+        the laundry and report the remaining time; a garage door can be opened
+        and closed.)
+
+        The benefit is that these devices only need to implement functionality
+        that is relevant to them. In order to interoperate, a device must
+        discover the type of another device. The type identifies the set of
+        functionality. Once the type has been discovered, a device can assume
+        that it can use all of its knowledge related to that type when
+        interacting with the remote device.
+
+        The same tools can be used as for versioning, but there are typically
+        many more identifiers involved (e.g., for washing machines, garage
+        doors, coffee machines, sprinklers, ...) and the piece of knowledge
+        associated with each identifier is much smaller. The system can be
+        evolved by adding new types and updating the firmware of older devices
+        that need to interact with newer types without impacting other devices.
+
+        Specialization can be combined with versioning. For example, a newer
+        washing machine could implement version 2 of the washing machine API,
+        while an older product line might support only version 1. A smartphone
+        app that implements both API versions (possibly after a software update)
+        can control both washing machines.
+
+      * Orthogonal Specifications
+
+        With "Orthogonal Specifications", applications are composed of several
+        independent components. Each component has a unique identifier. In-band
+        information is used to discover the components supported by other nodes.
+
+        This is one of the general principles of Web architecture [9]. The
+        Browser Web is built on orthogonal specifications for identification,
+        interaction, and representation. For example, URIs are used to identify
+        resources, HTML is used to describe the format of Web pages, and PNG,
+        GIF, and JPEG are popular formats to encode images. Each of these
+        technologies can be evolved or replaced with an alternative technology
+        without affecting the other technologies.
+
+        Identifiers embedded in representations and HTTP header fields play a
+        huge role in this strategy: Internet media types (such as the character
+        strings "text/html" and "image/png") are used to indicate the format of
+        representations, to indicate the preferred formats by a Web browser to a
+        Web server (called "proactive negotiation"), and to select the best
+        representation from a list of alternative representations (called
+        "reactive negotiation"). URI schemes (such as "http://" and "coap://")
+        indicate the structure and semantics of URIs. HTML tags (such as "div",
+        "h1" and "script") indicate the structure and semantics of Web page
+        elements. Each of these identifier spaces is extensible, typically
+        through a standardization process at the IETF or W3C.
+
+      * Hypermedia
+
+        A defining characteristic of the Browser Web is that it allows
+        references from resources to other resources via URIs. When a
+        representation of one resource contains a reference to another resource,
+        expressed with a URI identifying that other resource, this constitutes a
+        _link_ between the two resources.
+
+        Web browsers typically know how to do things (e.g., how to fetch a Web
+        page) and discover on the fly what things are available (e.g., what Web
+        pages or representation formats are available). This done in an
+        incremental fashion, where fetching a representation of one resource
+        reveals the availability of other resources through links, be they on
+        the same server or any other server in the world (hence a world-wide
+        "web" of interlinked resources).
+
+        This interaction model can also drive the interaction between machines
+        that are not operated by users. In fact, Fielding argues that a REST API
+        can only be called truly RESTful if it is driven by hypermedia [5]. The
+        key idea of hypermedia-driven REST is that servers provide choices to
+        clients in the form of hyperlinks and other in-band information. Clients
+        select from these choices and construct requests from server- provided
+        instructions. This includes the construction of all URIs and request
+        payloads. The result of a request is a representation with a new set of
+        choices and instructions, and the cycle repeats.
+
+        This principle, called "hypermedia as the engine of application state"
+        (HATEOAS), decouples client and server in a way that allows for very
+        high evolvability: Since clients construct all requests exclusively
+        based on in-band information, it is easy for a server to change URIs,
+        data formats, protocols, and other components without clients noticing
+        it (provided they understand these components). Additionally, servers
+        can provide alternatives for clients with different capabilities, which
+        allows to gradually evolve applications without breaking older clients.
+
+    All strategies promote evolvability. The key is the use in-band information,
+    which consists of identifiers for groups of knowledge of different
+    granularity. The effectiveness of a level of granularity depends on the
+    number of (specialized) APIs, API versions, implementations, and client and
+    server deployments.
+
+    With increasing numbers, it becomes more difficult to replace larger pieces
+    of knowledge at once. In particular in the Internet of Things, there is a
+    potential that billions of devices with out-dated, non-updateable knowledge
+    stick around for a very long time. An evolution strategy with small,
+    exchangable units of knowledge and in-band instructions can help to maintain
+    an ecosystem (and semantic interoperability) over a long period of time.
+
+    A prime candidate for this is hypermedia-driven REST, which Fielding
+    describes as "software design on the scale of decades" [5]. REST with its
+    strong focus on driving all interactions through in-band information
+    provides a very good basis for long-term evolution.
+
+
+4. Machine-Understandable Hypermedia
+
+    There are two questions that come up often at this point: How can the the
+    hypermedia interaction model be applied to machine-to-machine communication?
+    And: Doesn't the transfer of all the additional in-band information cause a
+    lot of overhead?
+
+    In this and the following section, we provide a quick sketch of machine-
+    understandable hypermedia and show that hypermedia elements can be encoded
+    in a very compact way that is suitable even for resource-constrained IoT
+    devices.
+
+
+4.1. Links
+
+    In the Browser Web, a link typically consists of some human-readable text
+    indicating the semantics of the link and the URI of the link target:
+
+        <a href="contact.html">Contact us</a>
+
+    To make a link machine-understandable, the text can be replaced with an
+    identifier from a previously established vocabulary. The Internet Assigned
+    Numbers Authority (IANA) maintains a registry [10] for such identifiers,
+    which are called "link relation types" (often abbreviated to "rel" in data
+    formats). The most prominent one is probably the "stylesheet" link relation
+    type, which is used when linking to a stylesheet from an HTML page:
+
+        <link rel="stylesheet" href="bootstrap.css" />
+
+    A Web browser that understands this link relation type automatically follows
+    the link and requests a representation of the link target resource. In this
+    case, the server serves a CSS stylesheet, which the browser automatically
+    applies to the link origin (the displayed HTML page).
+
+    The identifier is similar to a resource type, except that it describes the
+    relationship that the two resources have, not the type of each resource. A
+    similar distinction is made in relational databases: If there are three rows
+    in a table named 'Persons', the more interesting bit to know is often that
+    person A is an employee of person B, and person B is the spouse of person C.
+
+    By repeatedly following links, a client can discover the web of available
+    resources and how they relate to each other. The link relation type can also
+    identify a set of possible operations on the link target, for example, that
+    an employee can be fired or a spouse can be kissed. (In other words, a link
+    relation type can be an identifier for a piece of knowledge.)
+
+    There are several data formats that facilitate building applications in this
+    style. This includes, for instance, the Hypertext Application Language (HAL)
+    [11], Siren [12], and Hydra [13].
+
+
+4.2. Forms
+
+    A more detailed way for describing and discovering the set of possible
+    operations on a resource are _forms_.
+
+    In the Browser Web, a form usually consists of some human-readable text
+    indicating the semantics of the form, plus some browser-understandable
+    information such as the submission method (usually HTTP's "POST" method), a
+    submission URI, an accepted data format (usually "application/x-www-form-
+    urlencoded"), and a list of form fields. In HTML, form fields consist of an
+    input type, a name, and a human-readable label indicating the semantics of
+    the field.
+
+    A form that combines all these elements and allows a user to order coffee
+    might look like this:
+
+        <form action="/orders" method="POST">
+          <h1>Order fresh coffee!</h1>
+          <p>
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" value="1">
+          <p>
+            <label for="sugar">Add sugar:</label>
+            <input type="checkbox" name="sugar" value="yes" checked>
+          <p>
+            <label for="milk">Add milk:</label>
+            <input type="checkbox" name="milk" value="yes">
+        </form>
+
+    To make a form machine-understandable, the form title and the field names
+    can be replaced by identifiers from some previously established vocabulary.
+    A machine that understands this vocabulary can determine that the resource
+    supports a coffee making operation. It is provided with in-band information
+    that describes in detail which HTTP method to use, which data format is
+    accepted, and what data items need to be supplied.
+
+    Forms do not necessarily have to have the same level of detail as in HTML:
+
+      * In the simplest case, a resource could indicate that it supports the
+        coffee making operation by including an identifier from a vocabulary
+        that the client understands. The set of possible parameters for making
+        coffee can be implied by the identifier. So, for example, instead of
+        saying that a device is a coffee machine, a device could indicate its
+        support for the coffee making operation (possibly in addition to other
+        operations).
+
+      * This indication of supported functionality can optionally be made more
+        detailed by including identifiers from a vocabulary for the parameters
+        of the operations. Parameters could include, for example, whether the
+        operation has quantity, sugar, and/or milk parameters (as is the case in
+        the HTML example above). A newer coffee machine generation can indicate
+        support for additional parameters without breaking backward-
+        compatibility with older software.
+
+      * If desired, this can be made even more detailed by including identifiers
+        from a vocabulary for the possible values of each parameter. This could
+        include, for example, the range of permitted values of the quantity
+        parameter, or whether a coffee type parameter can have the values
+        "cappucino" and "lungo" or just "espresso". All of this can be described
+        with a machine-understandable vocabulary and discovered at runtime.
+
+    At some point, it becomes less effective to use more and more identifiers to
+    identify smaller and smaller units of supported functionality. But it also
+    makes additions to the API very easy, to the point that having lots of
+    product variation is no problem at all:
+
+      * Want to add the functionality to burn pictures on a toast? Easy -- just
+        add a new form to the toaster resource. Older clients will still be able
+        to make boring toast without pictures, but newer clients can recognize
+        the new form by its identifier and can make really wacky toast.
+
+      * Want to switch all data formats from JSON to XML because JSON was really
+        just a fad? Easy -- just add a new form that accepts XML and change the
+        existing form to point to an off-device service that converts JSON to
+        XML and sends the result to the device.
+
+      * Want to support 16 million colors in a new light bulb instead of just
+        five? Easy -- just add RGB values as acceptable parameter values to the
+        form. Or HSL values. Or CMYK.
+
+    Of course, when it becomes so cheap to add new features, there is a risk of
+    overdoing it. When there are too many variations, maintaining
+    interoperability can become challenging. However, this is a matter of simply
+    not adding too much stuff even though it's possible, rather than not being
+    able to add something because that would be too expensive.
+
+    The only other cost is an increased communication overhead when transferring
+    the additional in-band information. However, this information often needs to
+    be acquired only once and can be cached for a long time. Additionally, the
+    overhead can be reduced by using short identifiers and a compact hypermedia
+    representation format, as we show in the following section.
+
+
+5. The Constrained RESTful Application Language (CoRAL)
+
+    The Constrained RESTful Application Language (CoRAL) is an attempt to make
+    the hypermedia-driven REST style suitable for constrained environments [14].
+    CoRAL combines two things:
+
+      * a machine-understandable hypermedia format that is in many cases much
+        more compact than existing hypermedia formats, and
+
+      * the expressive power to use in-band information for implementing many of
+        the strategies for API evolution discussed in section 3.
+
+    In the simplest case, CoRAL can be used as a serialization format for Web
+    links [15]. It is based on Concise Binary Object Representation (CBOR) [16]
+    and shares many similarities with the message format of the Constrained
+    Application Protocol (CoAP) [17]. For example, it uses small numbers instead
+    of verbose strings and efficiently decomposes URIs into (what CoAP considers
+    to be) their components. This leads to very compact serializations, often
+    more compact than equivalent serializations in CoRE Link Format [18]
+    including its CBOR variant [19] or the JSON-based Hypertext Application
+    Language (HAL) [11].
+
+    Implementations can be very compact as well, since processing URIs in this
+    way is much simpler than in the full format specified by IETF [20] and WHAT
+    WG [21]. (Correct URI handling is often the biggest hurdle when implementing
+    hypermedia formats in limited code size.) In fact, to accommodate processing
+    URIs both in the CoAP message format and in the CoRAL format, we simply
+    implemented a third, in-memory format called "CIRI" (for "constrained IRI")
+    [22] and perform all URI arithmetic in this format, converting from/to CoAP
+    and CoRAL as needed.
+
+    CoRAL also supports the serialization of forms. These can be encoded in a
+    very compact way as well, often in just a few bytes, if they only indicate
+    supported operations. To additionally describe supported parameters and
+    possible values, CoRAL provides the ability to embed custom data in forms.
+
+    A specification of CoRAL is available as an Internet-Draft [23]. We're
+    currently working on an update that will add the ability to annotate
+    elements with metadata and to use identifiers from more than one vocabulary.
+    A practical application of CoRAL is the Thing-to-Thing Data Hub [24], which
+    provides a repository for sharing data items such as thing descriptions,
+    default configurations for new devices, firmware updates, or certificate
+    revocation lists.
+
+
+5.1. Example
+
+    We present a short example of how a software agent might walk through a web
+    of little humanoid robots using CoAP and CoRAL. It is a bit difficult to
+    show comprehensible examples in a compact binary data format; instead, we
+    show the examples in a clunky XML format that is hopefully easy to
+    understand, and trust the reader to imagine the serialization of each
+    snippet in a small number of bytes.
+
+     1. In our example, the agent starts with an entry point URI and the
+        knowledge of a number of Internet media types and link relation types as
+        well as the CoAP protocol and the "coap://" URI scheme. The entry point
+        URI references a resource representing "Robbie the Robot", a small
+        humanoid entertainment robot. The agent can retrieve a representation of
+        Robbie by making a GET request:
+
+        Request
+
+            GET coap://robbie.robot/
+
+        Response
+
+            2.05 Content
+            Content-Format: example/robot+xml
+
+            <?xml version="1.0"?>
+            <robot>
+              <id>354675</id>
+              <name>Robbie the robot</name>
+              <link rel="mood" href="/mood" />
+              <link rel="likes" href="coap://susie.robot/" />
+              <link rel="likes" href="coap://nikki.robot/" />
+            </robot>
+
+        The representation contains some basic information about Robbie as well
+        as a number of links to other resources. CoRAL is primarily intended for
+        encoding links and forms, but also has limited support for including
+        simple metadata in the representation such as the robot's name and ID.
+        Alternatively, applications can embed blobs of CoRAL in their data
+        format to enhance application-specific information with links and forms.
+
+     2. If the agent has knowledge about the "mood" link relation type, it can
+        see in the above representation that Robbie has a resource representing
+        Robbie's current mood. The agent can follow the link by resolving the
+        relative URI </mood> against the retrieval URI <coap://robbie.robot/>
+        and constructing a GET request with the result:
+
+        Request
+
+            GET coap://robbie.robot/mood
+
+        Response
+
+            2.05 Content
+            Content-Format: example/mood+xml
+
+            <?xml version="1.0"?>
+            <mood>
+              happy
+            </mood>
+
+        Unsurprisingly, Robbie is very happy.
+
+     3. If the agent has knowledge about the "likes" link relation type, it can
+        see that Robbie likes two other robots, Susie and Nikki. The agent can
+        follow the link to Susie, a friendly domestic robot, and retrieve a
+        representation of her:
+
+        Request
+
+            GET coap://susie.robot/
+
+        Response
+
+            2.05 Content
+            Content-Format: example/robot+xml
+
+            <?xml version="1.0"?>
+            <robot>
+              <id>827446</id>
+              <name>Susie</name>
+              <link rel="power-led" href="/leds/power" />
+              <link rel="status-led" href="/leds/status" />
+              <link rel="headlight" href="/leds/head">
+                <form rel="update" method="PUT" href="/leds/head"
+                      accept="example/on-off" />
+              </link>
+              <link rel="tasks" href="/tasks" />
+            </robot>
+
+        Susie has a few resources for her external LEDs, which are linked from
+        Susie's representation. One of the LEDs, a headlight, can be controlled
+        remotely. This is indicated in CoRAL by a form nested under the link to
+        the headlight. The form provides the following instruction to the agent:
+
+            "To 'update' the state of the target of the enclosing link (the
+            headlight), make a 'PUT' request to '/leds/head' with a payload in
+            'example/on-off' format."
+
+        Provided that the agent has knowledge of the identifiers "update" and
+        "PUT" and the "example/on-off" format, it can turn the headlight on by
+        constructing the following request:
+
+        Request
+
+            PUT coap://susie.robot/leds/head
+            Content-Format: example/on-off
+
+            "on"
+
+        Response
+
+            2.04 Changed
+
+     4. If the agent has knowledge about the "tasks" link relation type, it can
+        follow the link in Susie's representation to fetch her current to-do
+        list:
+
+        Request
+
+            GET coap://susie.robot/tasks
+
+        Response
+
+            2.05 Content
+            Content-Format: example/task+xml
+
+            <?xml version="1.0"?>
+            <tasks>
+              <link rel="task" href="/tasks/1">
+                <description>Pick up the kids</description>
+              </link>
+              <link rel="task" href="/tasks/2">
+                <description>Return books to the library</description>
+              </task>
+              <form rel="add" method="POST" href="/tasks"
+                    accept="example/task+xml" />
+            </tasks>
+
+        The list contains a number of links to tasks and a form for adding a new
+        task. The form provides the following instruction:
+
+            "To 'add' an item to the represented resource (the to-do list), make
+            a 'POST' request to '/tasks' with a payload in 'example/task+xml'
+            format."
+
+        Provided that the agent understands each of the identifiers, it can
+        construct a request to add a new task:
+
+        Request
+
+            POST coap://susie.robot/tasks
+            Content-Format: example/task+xml
+
+            <?xml version="1.0"?>
+            <task>
+              <description>Take out the trash</description>
+            </task>
+
+        Response
+
+            2.01 Created
+            Location: /tasks/3
+
+        The response contains the location of the resource for the added task.
+        The agent can navigate to that resource and retrieve a representation of
+        the task:
+
+        Request
+
+            GET coap://susie.robot/tasks/3
+
+        Response
+
+            2.05 Content
+            Content-Format: example/task+xml
+
+            <?xml version="1.0"?>
+            <task>
+              <description>Take out the trash</description>
+              <link rel="tasks" href="/tasks" />
+              <form rel="update" method="PUT" href="/tasks/3"
+                    accept="example/task+xml" />
+              <form rel="delete" method="DELETE" href="/tasks/3" />
+            </task>
+
+        The task representation contains the description provided by the agent,
+        but Susie also includes forms to update the task and to delete it. If
+        the agent understands the identifiers, it can delete the task:
+
+        Request
+
+            DELETE coap://susie.robot/tasks/3
+
+        Response
+
+            2.02 Deleted
+
+
+6. Conclusion
+
+    Hypermedia looks like a promising strategy for evolution in the Internet of
+    Things, in particular in areas that employ the REST architectural style and
+    use protocols such as CoAP. Applications can be gradually evolved over a
+    long period of time without breaking backward-compatibility. With CoRAL, we
+    show that the hypermedia interaction style based on links and forms can be
+    made to work even in environments with severe constraints on power, memory,
+    and processing resources.
+
+
+References
+
+    [1]  https://tools.ietf.org/html/draft-iab-iotsi-workshop-01
+    [2]  https://tools.ietf.org/html/draft-baba-iot-problems-03
+    [3]  http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm
+    [4]  https://tools.ietf.org/html/draft-iab-iotsu-workshop-01
+    [5]  http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven
+    [6]  http://swagger.io/
+    [7]  http://raml.org/
+    [8]  https://tools.ietf.org/html/rfc7320
+    [9]  https://www.w3.org/TR/webarch/
+    [10] https://www.iana.org/assignments/link-relations/
+    [11] https://tools.ietf.org/html/draft-kelly-json-hal-08
+    [12] https://github.com/kevinswiber/siren
+    [13] https://www.hydra-cg.com/spec/latest/core/
+    [14] https://tools.ietf.org/html/rfc7228
+    [15] https://tools.ietf.org/html/draft-nottingham-rfc5988bis-06
+    [16] https://tools.ietf.org/html/rfc7049
+    [17] https://tools.ietf.org/html/rfc7252
+    [18] https://tools.ietf.org/html/rfc6690
+    [19] https://tools.ietf.org/html/draft-ietf-core-links-json-08
+    [20] https://tools.ietf.org/html/rfc3986
+    [21] https://url.spec.whatwg.org/
+    [22] https://github.com/ektrah/cirilla
+    [23] https://tools.ietf.org/html/draft-hartke-t2trg-coral-02
+    [24] https://tools.ietf.org/html/draft-hartke-t2trg-data-hub-00
