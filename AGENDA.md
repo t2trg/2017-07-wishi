@@ -17,34 +17,38 @@ Please have a look at: [https://github.com/t2trg/2017-07-wishi](https://github.c
 
 # Agenda
 
-Draft 0.2 of the Agenda:
+Draft 0.3 of the Agenda:
 
 ## Saturday 15th July
 
-|  Time | Presenter(s)         | Topic                                    |
-|-------|----------------------|------------------------------------------|
-|  9:00 | Chairs               | Welcome & Introduction. T2TRG/IETF work. |
-|  9:30 | Padmakumar Subramani | OMA DM (LwM2M)                           |
-|  9:55 | Jaime Jimenez        | IPSO Smart Objects                       |
-| 10:20 | Milan Milenkovic     | IPSO Semantic Working Group              |
-| 10:45 |                      | break                                    |
-| 11:00 | Michael Koster       | iot.schema.org                           |
-| 11:25 | Matthias Kovatsch    | W3C Web of Things                        |
-| 11:50 | Dave Thaler          | Open Connectivity Foundation (OCF)       |
-| 12:15 | Tim Carey            | oneM2M                                   |
-| 12:40 |                      | lunch                                    |
-| 13:40 | Teresa Zotti         | Fairhair Alliance                        |
-| 14:05 | Milan Milenkovic     | Haystack                                 |
-| 14:30 | Chairs, all          | Discussion                               |
-| 14:50 |                      | break                                    |
-| 15:10 | (multiple)           | Topical presentations (*)                |
-| 17:40 | Chairs, all          | Breakout planning, plenary wrapup        |
-| 18:00 |                      | Closing                                  |
+Slides: <https://github.com/t2trg/2017-07-wishi/tree/master/slides>
 
-(*) There is still a little space for additional talk proposals
-(proposals due immediately): [Call for contributions][cfc]
+Paper submissions: <https://github.com/t2trg/2017-07-wishi/tree/master/submissions>
 
-[cfc]: https://github.com/t2trg/2017-07-wishi/blob/master/CALL-FOR-CONTRIBUTIONS.md
+|  Time | Presenter(s)         | Topic                                                                 |
+|-------|----------------------|-----------------------------------------------------------------------|
+|  9:00 | Chairs               | Welcome & Introduction. T2TRG/IETF work.                              |
+|  9:30 | Padmakumar Subramani | OMA DM (LwM2M)                                                        |
+|  9:55 | Jaime Jimenez        | IPSO Smart Objects                                                    |
+| 10:20 | Milan Milenkovic     | IPSO Semantic Working Group                                           |
+| 10:45 |                      | break                                                                 |
+| 11:00 | Michael Koster       | iot.schema.org                                                        |
+| 11:25 | Matthias Kovatsch    | W3C Web of Things                                                     |
+| 11:50 | Dave Thaler          | Open Connectivity Foundation (OCF)                                    |
+| 12:15 | Tim Carey            | oneM2M                                                                |
+| 12:40 |                      | lunch                                                                 |
+| 13:40 | Teresa Zotti         | Fairhair Alliance                                                     |
+| 14:05 | Milan Milenkovic     | Haystack                                                              |
+| 14:30 | Chairs, all          | Discussion                                                            |
+| 14:50 |                      | break                                                                 |
+| 15:10 | Abdulkadir Karaagac  | Challenges for Semantic LWM2M Interoperability in Complex IoT Systems |
+| 15:35 | Andreas Harth        | Rule-based Orchestration of Networked Components                      |
+| 16:00 | Victor Charpenay     | WoT Thing Description                                                 |
+| 16:25 | Michael Jacoby       | Approaches to Semantic Interoperability and Semantic Mapping          |
+| 16:50 | Milan Milenkovic     | Semantic Interop PoC                                                  |
+| 17:15 | Klaus Hartke         | Hypermedia for Long-Term Semantic Interoperability                                                                      |
+| 17:40 | Chairs, all          | Breakout planning, plenary wrapup                                     |
+| 18:00 |                      | Closing                                                               |
 
 ## Sunday 16th July
 
