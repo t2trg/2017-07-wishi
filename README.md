@@ -4,9 +4,11 @@ When: July 15/16, 2017 (weekend before IETF99)
 
 Where: Hilton Prague (IETF meeting hotel), room Berlin/Brussels. Pobřežní 1, Prague, Czech Republic
 
+Meeting sponsor: [Ericsson](https://www.ericsson.com/en/internet-of-things).
+
 Registration: https://goo.gl/forms/yUTebqK9C84Ef01i2
 
-Please register by **June 23rd**. Registration and meeting is free of cost but we need to know number of participants for meeting logistics.
+Please register by **June 23rd**. Registration and meeting is free of cost (thanks Ericsson) but we need to know number of participants for meeting logistics.
 
 Draft agenda is available [here](https://github.com/t2trg/2017-07-wishi/blob/master/AGENDA.md).
 
