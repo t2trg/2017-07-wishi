@@ -7,6 +7,8 @@ Where: Hilton Prague (IETF meeting hotel), room Berlin/Brussels. Pobřežní 1, 
 Remote participation: https://jitsi.tools.ietf.org/WISHI2017
 (or see the mailing list for latest information)
 
+Live notes in Google docs: https://goo.gl/P45Z2A
+
 Meeting sponsor: [Ericsson](https://www.ericsson.com/en/internet-of-things).
 
 Registration: https://goo.gl/forms/yUTebqK9C84Ef01i2
