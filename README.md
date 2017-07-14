@@ -4,6 +4,9 @@ When: July 15/16, 2017 (weekend before IETF99)
 
 Where: Hilton Prague (IETF meeting hotel), room Berlin/Brussels. Pobřežní 1, Prague, Czech Republic
 
+Remote participation: https://jitsi.tools.ietf.org/WISHI2017
+(or see the mailing list for latest information)
+
 Meeting sponsor: [Ericsson](https://www.ericsson.com/en/internet-of-things).
 
 Registration: https://goo.gl/forms/yUTebqK9C84Ef01i2
