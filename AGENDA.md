@@ -39,16 +39,17 @@ Paper submissions: <https://github.com/t2trg/2017-07-wishi/tree/master/submissio
 | 12:40 |                      | lunch                                                                 |
 | 13:40 | Teresa Zotti         | Fairhair Alliance                                                     |
 | 14:05 | Milan Milenkovic     | Haystack                                                              |
-| 14:30 | Chairs, all          | Discussion                                                            |
-| 14:50 |                      | break                                                                 |
-| 15:10 | Abdulkadir Karaagac  | Challenges for Semantic LWM2M Interoperability in Complex IoT Systems |
-| 15:35 | Andreas Harth        | Rule-based Orchestration of Networked Components                      |
-| 16:00 | Victor Charpenay     | WoT Thing Description                                                 |
-| 16:25 | Michael Jacoby       | Approaches to Semantic Interoperability and Semantic Mapping          |
-| 16:50 | Milan Milenkovic     | Semantic Interop PoC                                                  |
-| 17:15 | Klaus Hartke         | Hypermedia for Long-Term Semantic Interoperability                                                                      |
-| 17:40 | Chairs, all          | Breakout planning, plenary wrapup                                     |
-| 18:00 |                      | Closing                                                               |
+| 14:30 | Alex Pelov           | YANG of Things                                                        |
+| 14:40 | Chairs, all          | Discussion                                                            |
+| 15:00 |                      | break                                                                 |
+| 15:20 | Abdulkadir Karaagac  | Challenges for Semantic LWM2M Interoperability in Complex IoT Systems |
+| 15:45 | Andreas Harth        | Rule-based Orchestration of Networked Components                      |
+| 16:10 | Victor Charpenay     | WoT Thing Description                                                 |
+| 16:35 | Michael Jacoby       | Approaches to Semantic Interoperability and Semantic Mapping          |
+| 17:00 | Milan Milenkovic     | Semantic Interop PoC                                                  |
+| 17:25 | Klaus Hartke         | Hypermedia for Long-Term Semantic Interoperability                                                                      |
+| 17:50 | Chairs, all          | Breakout planning, plenary wrapup                                     |
+| 18:10 |                      | Closing                                                               |
 
 ## Sunday 16th July
 
