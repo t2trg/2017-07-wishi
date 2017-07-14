@@ -47,7 +47,7 @@ Paper submissions: <https://github.com/t2trg/2017-07-wishi/tree/master/submissio
 | 16:10 | Victor Charpenay     | WoT Thing Description                                                 |
 | 16:35 | Michael Jacoby       | Approaches to Semantic Interoperability and Semantic Mapping          |
 | 17:00 | Milan Milenkovic     | Semantic Interop PoC                                                  |
-| 17:25 | Klaus Hartke         | Hypermedia for Long-Term Semantic Interoperability                                                                      |
+| 17:25 | Klaus Hartke         | Hypermedia for Long-Term Semantic Interoperability                    |
 | 17:50 | Chairs, all          | Breakout planning, plenary wrapup                                     |
 | 18:10 |                      | Closing                                                               |
 
